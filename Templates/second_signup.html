@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block dashboard_content %}
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'Css\registration.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images\favico.webp' %}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{% static 'js\registration.js' %}"></script>
+    <title>Reimbursement</title>
+</head>
+<body>
+    <form method="POST" action="{% url 'second_register_view' %}">
+        {% csrf_token %}
+        <div class="container">
+          <h1>Create</h1>
+          <p class="mt-2">Please fill this form for Create Candidate.</p>
+          <div class="messages"></div>
+          {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}       
+        {% if user_type %}
+          <p id="user_type" style="display:none">{{user_type}}</p>
+        {% else %}
+          <p id="user_type" style="display:none"></p>
+        {% endif %}
+          <label for="email"><b>Email</b></label>
+          <input type="text" placeholder="Enter Email" name="email" required>
+          <label for="email"><b>Budget</b></label>
+          <input type="text" placeholder="Enter Budget" name="Budget" required>
+          {% if  user_type == 'admin' %}        
+            <label for="psw"><b>User Type</b></label>
+            <select id="user_type" name="user_type"  class="custom-select">
+              <option value="manager" class="custom-select">Manager</option>
+              <option value="candidate" class="custom-select">Candidate</option>
+            </select>
+          {% endif %}
+          {% if user_type == 'manager' %}        
+          <label for="psw"><b>User Type</b></label>
+          <select id="user_type" name="user_type"  class="custom-select">
+            <option value="manager" class="custom-select">Manager</option>
+            <option value="candidate" class="custom-select">Candidate</option>
+          </select>
+        {% endif %}
+          <div class="clearfix">
+            <button type="submit" class="btn" style="background-color: #5C60F5;">Sign Up</button>
+            <div class="center-signin">
+              {% if not user_type %}
+                Click here for <a href="{% url 'login_view' %}">Sign in</a>
+              {% else %}  
+              {% endif %}
+            </div>
+          </div>          
+        </div>
+      </form>
+</body>
+</html>
+    
+
+{% endblock %}

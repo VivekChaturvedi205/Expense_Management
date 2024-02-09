@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block dashboard_content %}
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'Css/registration.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favico.webp' %}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Add Expense</title>
+</head>
+<body>
+    <form method="POST" action="{% url 'expense_details' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="container">
+          <h1>Add Expense</h1>
+          <div class="messages"></div>
+          {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}       
+          <label for="expense_name"><b>Expense Name</b></label>
+          <input type="text" placeholder="Enter Expense Name" name="expense_name" required>
+          <label for="description"><b>Expense Description</b></label>
+          <input type="text" placeholder="Enter Description" name="description" required>
+          <label for="amount"><b>Amount</b></label>
+          <input type="text" placeholder="Enter Amount" name="amount" required>
+          <label for="date" style="display: inline-block; width: 100%;"><b>Date of Expense</b></label>
+          <input type="date" name="date" style="display: inline-block; width: 100%;" required>
+          <label for="file" style="display: inline-block; width: 100%;"><b>Choose file</b></label>
+          <input type="file" name="file" style="display: inline-block; width: 100%;" required>
+        <div class="clearfix">
+            <button type="submit" class="btn" style="background-color: #5C60F5;">Submit Expense</button>
+            <div class="center-signin">
+            </div>
+          </div>          
+        </div>
+      </form>
+</body>
+</html>
+{% endblock %}
