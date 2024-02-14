@@ -25,10 +25,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <!-- Brand -->
-            <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0" href="#">
-                <img src="https://preview.webpixels.io/web/img/logos/clever-primary.svg" alt="...">
-            </a>
-            <!-- User menu (mobile) -->
+            <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0 d-flex justify-content-center align-items-center" href="{% url 'home' %}" style="width: 150px; height: 150px; margin-left:20%;">
+                <img src="{% static 'images/home.png' %}" alt="..." style="width: 100%; height: 100%; object-fit: contain;">
+            </a>            <!-- User menu (mobile) -->
             <div class="navbar-user d-lg-none">
                 <!-- Dropdown -->
                 <div class="dropdown">
@@ -59,13 +58,28 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'analitycs' %}">
+                        <a class="nav-link" href="{% url 'visualize_expenses' %}">
                             <i class="bi bi-bar-chart"></i> Analitycs
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'expense_details' %}">
-                            <i class="bi bi-chat"></i> Expense
+                            <i class="bi bi-chat"></i> Add Expense
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'show_all_exp' %}">
+                            <i class="bi bi-chat"></i>Incoming Expense
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">
+                            <i class="bi bi-chat"></i>Approved Expense
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">
+                            <i class="bi bi-chat"></i>Rejected Expense
                         </a>
                     </li>
                     <!-- <li class="nav-item">
@@ -162,6 +176,11 @@
                             <i class="bi bi-person-square"></i> {{request.user.username}}
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'change_password' %}">
+                            <i class="bi bi-chat"></i> Change Password
+                        </a>
+                    </li>                    
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout_view' %}">
                             <i class="bi bi-box-arrow-left"></i> Logout

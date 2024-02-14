@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block dashboard_content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        select, input, button {
+            margin: 5px;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chart {
+            width: 100%;
+            max-width: 600px;
+            height: 500px;
+            margin: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Data Analysis</h1>
+        <form method="GET" action="#">
+            <label for="month">Month:</label>
+            <select name="month" id="month">
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>            
+            </select>
+
+            <label for="year">Year:</label>
+            <input type="number" name="year" id="year" placeholder="Enter year" readonly>
+            <button type="submit">Filter</button>
+        </form>
+        
+        <div class="chart-container">
+            <div id="barChart" class="chart"></div>
+            <div id="pieChart1" class="chart" style="width:100%; max-width:600px; height:500px;"></div>
+            <div id="pieChart2" class="chart" style="width:100%; max-width:600px; height:500px;"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        const currentYear = new Date().getFullYear();
+        document.getElementById('year').placeholder = `${currentYear - 1} - ${currentYear}`;
+    </script>
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawCharts);
+
+        function drawCharts() {
+            const barChartData = google.visualization.arrayToDataTable([
+            ['User Type', 'Count', { role: 'style' }],
+            ['Total Admin', {{ admincount }}, '#3366cc'],
+            ['Total Manager', {{ managercount }}, '#dc3912'],
+            ['Total Candidate', {{ candidatecount }}, '#ff9900'],
+                        ]);
+            const barChartOptions = {
+                title: 'User Type',
+                orientation: 'horizontal', 
+                legend: { position: 'none' }, 
+            };
+            const barChart = new google.visualization.BarChart(document.getElementById('barChart'));
+            barChart.draw(barChartData, barChartOptions);
+            const pieChartData1 = google.visualization.arrayToDataTable([
+                ['All Expense Position', 'Count'],
+                ['Submit Expense', {{ submit_expense }}],
+                ['Expense Pending for Approve ', {{ pending_expense }}],
+                ['Approved Expense', {{ approve_expense }}],
+                [' Rejected Expense ', {{ rejected_expense }}],
+            ]);
+            const pieChartOptions1 = {
+                title: 'Expense Related',
+                pieHole: 0.4,
+                is3D:true,
+            };
+
+            // First pie chart
+            const pieChart1 = new google.visualization.PieChart(document.getElementById('pieChart1'));
+            pieChart1.draw(pieChartData1, pieChartOptions1);
+
+            // Data for the second pie chart
+            const pieChartData2 = google.visualization.arrayToDataTable([
+                    ['Budget', 'Mhl'],
+                    ['total_budget_amount',{{total_budget_amount}}],
+                    ['total_approve_budget_amount',{{total_approve_budget_amount}}],
+                    ['Pending for approval Budget',{{total_budget_amount}}-{{total_approve_budget_amount}}],
+            ]);
+            const pieChartOptions2 = {
+                title: 'Budget',
+                pieHole: 0.4,
+                is3D:true,
+            };
+            const pieChart2 = new google.visualization.PieChart(document.getElementById('pieChart2'));
+            pieChart2.draw(pieChartData2, pieChartOptions2);
+        }
+    </script>
+    <script>
+        const currentMonth = new Date().getMonth() + 1; 
+        const monthDropdown = document.getElementById('month');
+        monthDropdown.value = currentMonth;
+    </script>
+</body>
+</html>
+
+{% endblock %}

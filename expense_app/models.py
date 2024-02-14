@@ -13,8 +13,8 @@ class Reimbursement(models.Model):
     file_name = models.CharField(max_length=255,null=True,blank=True)
     file_extension = models.CharField(max_length=255,null=True,blank=True)
     created_at = models.DateField(auto_now_add=True)
-    update_at = models.DateField(auto_now_add=True)
-    delete_at = models.DateField(auto_now_add=True)
+    update_at = models.DateField(null=True,blank=True)
+    delete_at = models.DateField(null=True,blank=True)
 
     def __str__(self):
         return f"Reimbursement for {self.user.username} - {self.amount}"
