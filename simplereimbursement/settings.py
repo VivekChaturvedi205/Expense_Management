@@ -74,8 +74,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_ID', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_PWD', default='')
 
-# EMAIL_HOST_USER = 'vk126789@gmail.com'
-# EMAIL_HOST_PASSWORD = 'uiwp iiwb exhd hnop'
 
 
 # Database
